@@ -82,7 +82,6 @@ public class FileController {
         findFileList(dir, fileNames);
         m.addAttribute("path", path + "/");
         m.addAttribute("resultList", fileNames);
-        m.addAttribute("111", 111);
         return "Path";
     }
 
