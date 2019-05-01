@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>File</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+            crossorigin="anonymous" type="text/javascript"></script>
+</head>
+<body>
+<h3>Download a File</h3>
+Path:
+<a th:text="${path}" th:value="${path}"></a>
+<p th:value="${path}" hidden id="fullPath"></p>
+<table>
+    <tr th:each="entity:${resultList}">
+        <td th:if="${entity.getIsFile() eq false}">
+            <a th:text="${entity.getPath()}" href="javascript:void(0)" onclick="queryAll(this.text)"></a>
+        </td>
+        <td th:if="${entity.getIsFile() eq true}">
+            <!--<td th:text="${entity.getPath()}"></td>-->
+            <a th:text="${entity.getPath()}" href="javascript:void(0)" onclick="downLoad(this.text)"></a>
+        </td>
+    </tr>
+</table>
+<script>
+    function queryAll(data) {
+        var path = $('#fullPath').attr("value");
+        var name = data.toString();
+        $.ajax({
+            async: false,
+            type: 'get',
+            url: '',
+            success: function (data) {
+                // console.log(data);
+                if (path == "")
+                    window.location.href = 'http://localhost:8080/files/query/all?path=' + name;
+                else
+                    window.location.href = 'http://localhost:8080/files/query/all?path=' + path + name;
+            }
+        })
+    }
+
+    function downLoad(data) {
+        var path = $('#fullPath').attr("value");
+        var name = data.toString();
+        $.ajax({
+            async: false,
+            type: 'get',
+            url: '',
+            success: function (data) {
+                // console.log(data);
+                if (path == "")
+                    window.location.href = 'http://localhost:8080/files/download?filename=' + name;
+                else
+                    window.location.href = 'http://localhost:8080/files/download?filename=' + path + name;
+            }
+        })
+    }
+</script>
+</body>
+</html>
