@@ -32,9 +32,7 @@ public class FileController {
                                            @RequestParam("filename") String filename,
                                            Model model) {
         System.out.println("Downloading......");
-//        String filename = "wb.py";
         //下载文件路径
-//        String path = request.getServletContext().getRealPath("/images/");
         System.out.println("file:" + filename);
         try {
             File file = new File(filename);
@@ -69,7 +67,6 @@ public class FileController {
         }
         m.addAttribute("path", null);
         m.addAttribute("resultList", result);
-        m.addAttribute("111", 111);
         return "Path";
     }
 
