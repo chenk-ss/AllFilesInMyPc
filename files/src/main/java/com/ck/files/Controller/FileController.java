@@ -62,7 +62,7 @@ public class FileController {
         ) {
             entity = new PathWithCheck();
             entity.setPath(file.getPath());
-            entity.setIsFile(false);
+            entity.setFile(false);
             result.add(entity);
         }
         m.addAttribute("path", null);
@@ -80,6 +80,7 @@ public class FileController {
         }
         List<PathWithCheck> fileNames = new ArrayList<PathWithCheck>();
         findFileList(dir, fileNames);
+        path = path.replace('\\', '/');
         m.addAttribute("path", path + "/");
         m.addAttribute("resultList", fileNames);
         return "Path";
@@ -94,10 +95,18 @@ public class FileController {
         for (int i = 0; i < files.length; i++) {// 循环，添加文件名或回调自身
             File file = new File(dir, files[i]);
             entity = new PathWithCheck();
-            entity.setIsFile(file.isFile());
+            entity.setFile(file.isFile());
 //            entity.setPath(dir + "/" + file.getName());
             entity.setPath(file.getName());
             fileNames.add(entity);// 添加文件全路径名
         }
+    }
+
+    @RequestMapping("/goBack")
+    public String goBack(Model m, @RequestParam("path") String path) {
+        if(path.split("://").length==1)
+            return queryAllDisks(m);
+        File file = new File(path);
+        return queryAll(m, file.getParentFile().getPath());
     }
 }

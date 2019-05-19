@@ -6,7 +6,7 @@ import lombok.Data;
 public class PathWithCheck {
 
     private String path;
-    private Boolean isFile;
+    private Boolean file;
 
     public String getPath() {
         return path.replace('\\', '/');

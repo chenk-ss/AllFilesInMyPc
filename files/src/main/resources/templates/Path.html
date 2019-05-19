@@ -10,15 +10,23 @@
 </head>
 <body>
 <h3>Download a File</h3>
+<!--<input type="button" value="<&#45;&#45;" onclick="goBack(this.text)"><br>-->
+<a th:text="BACK" href="javascript:void(0)" onclick="goBack()"></a><br>
 Path:
 <a th:text="${path}" th:value="${path}"></a>
 <p th:value="${path}" hidden id="fullPath"></p>
+<br>
+<input type="file" value="CHOSE A FILE">
+<input type="button" value="UPLOAD">
+<br>
+<input type="text" value="FOLDERNAME" id="folderName">
+<input type="button" value="BUILD FOLDER">
 <table>
     <tr th:each="entity:${resultList}">
-        <td th:if="${entity.getIsFile() eq false}">
+        <td th:if="${entity.getFile() eq false}">
             <a th:text="${entity.getPath()}" href="javascript:void(0)" onclick="queryAll(this.text)"></a>
         </td>
-        <td th:if="${entity.getIsFile() eq true}">
+        <td th:if="${entity.getFile() eq true}">
             <!--<td th:text="${entity.getPath()}"></td>-->
             <a th:text="${entity.getPath()}" href="javascript:void(0)" onclick="downLoad(this.text)"></a>
         </td>
@@ -35,9 +43,9 @@ Path:
             success: function (data) {
                 // console.log(data);
                 if (path == "")
-                    window.location.href = 'http://localhost:8080/files/query/all?path=' + name;
+                    window.location.href = 'http://192.168.191.1:8080/files/query/all?path=' + name;
                 else
-                    window.location.href = 'http://localhost:8080/files/query/all?path=' + path + name;
+                    window.location.href = 'http://192.168.191.1:8080/files/query/all?path=' + path + name;
             }
         })
     }
@@ -52,9 +60,24 @@ Path:
             success: function (data) {
                 // console.log(data);
                 if (path == "")
-                    window.location.href = 'http://localhost:8080/files/download?filename=' + name;
+                    window.location.href = 'http://192.168.191.1:8080/files/download?filename=' + name;
                 else
-                    window.location.href = 'http://localhost:8080/files/download?filename=' + path + name;
+                    window.location.href = 'http://192.168.191.1:8080/files/download?filename=' + path + name;
+            }
+        })
+    }
+
+    function goBack(data) {
+        var path = $('#fullPath').attr("value");
+        // var path = data.toString();
+        console.log(path);
+        $.ajax({
+            async: false,
+            type: 'get',
+            url: '',
+            success: function (data) {
+                // console.log(data);
+                window.location.href = 'http://192.168.191.1:8080/files/goBack?path=' + path;
             }
         })
     }
