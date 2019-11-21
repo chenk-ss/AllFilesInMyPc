@@ -104,9 +104,13 @@ public class FileController {
 
     @RequestMapping("/goBack")
     public String goBack(Model m, @RequestParam("path") String path) {
-        if(path.split("://").length==1)
+        System.out.println("osName:" + System.getProperty("os.name"));
+        if (System.getProperty("os.name").contains("Windows") && path.split("://").length == 1)
+            return queryAllDisks(m);
+        if (System.getProperty("os.name").contains("Linux") && ("".equals(path) || "//".equals(path)))
             return queryAllDisks(m);
         File file = new File(path);
+        System.out.println("-----not root-----");
         return queryAll(m, file.getParentFile().getPath());
     }
 }
